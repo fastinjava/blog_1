@@ -1,6 +1,6 @@
 require('es6-promise').polyfill()
 import axios from 'axios'
-import {message} from 'element-ui';
+import {message} from 'ant-design-vue';
 import router from '../router/index'
 
 axios.defaults.withCredentials = true //跨域

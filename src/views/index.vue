@@ -6,7 +6,7 @@
       breakpoint="xxl"
       collapsed-width="0"
     >
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']" >
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-menu-item key="1">
           <span>nav 1</span>
         </a-menu-item>
@@ -25,47 +25,84 @@
         <a-row style="width: 700px;margin: 0 auto">
           <a-card style="box-shadow: 0 4px 8px 0 rgba(28,31,33,0.1);background-color: #fff;
                 border-radius: 10px;">
-            <a-card v-for="(item,index) in 10" :key="index" style="margin-top: 10px;border: none;
-              ">
+            <div v-for="(item,index) in projectList" :key="index" style="border: none;">
               <div style="display: flex;">
                 <div>
-                  <img src="http://img3.sycdn.imooc.com/5bd1355a0001a27c04000294-200-200.jpg" alt="" style="width: 66px;
-                height: 66px;
-                border-radius: 8px;
-                margin-right: 8px;
-                ">
+                  <img :src="item.img" alt="" style="width: 66px;height: 66px;border-radius: 8px;margin-right: 8px;">
                 </div>
-                <div style="    border-bottom: 1px solid rgba(28,31,33,.1);padding: 10px;">
+                <div style="border-bottom: 1px solid rgba(28,31,33,.1);padding: 0px 0px 10px;width: 100%">
                   <div>
-                    Java开发专属成长路线，新手入门看这个就够了！ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd
+                    <a href="javascript:void(0);" class=""
+                      @click="$router.push({
+                          name:'ARTICLE',
+                          query:{
+
+                              projectType:item.projectType,
+                              id:item.id,
+
+                          }
+                      })"
+                    ><p class="title">{{item.title}}</p></a>
+                    <span>{{item.subTitle}}</span>
                   </div>
-                  <div>
-                    <a-button type="link">java</a-button>
-                    <a-button type="link">后端</a-button>
+                  <div style="padding: 5px">
+                    <a-tag>{{item['categoryName']}}</a-tag>
+                    <a-tag>{{item['username']}}</a-tag>
+                    <a-tag>{{item['projectTypeName']}}</a-tag>
                   </div>
                 </div>
               </div>
-            </a-card>
+            </div>
           </a-card>
-
-
         </a-row>
       </a-layout-content>
 
     </a-layout>
 
 
-
-
-
   </a-layout>
 </template>
 
 <script>
+  import * as projectController from './controller/projectController'
+
   export default {
-    name: ""
+    name: "",
+    data() {
+      return {
+        projectList: []
+      }
+    },
+    methods: {
+
+      listProjects() {
+        projectController.listProjects({pageSize: 1000}).then(res => {
+          if (res.success) {
+            this.projectList = res.data;
+          }
+        })
+      }
+
+    },
+    mounted() {
+      this.listProjects();
+    }
   }
 </script>
 
 <style scoped>
+  .title {
+    margin-bottom: 4px;
+    font-size: 16px;
+    color: #1c1f21;
+    line-height: 30px;
+    word-break: keep-all;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all .3s;
+    -moz-transition: all .3s;
+    -webkit-transition: all .3s;
+    -o-transition: all .3s;
+  }
 </style>
