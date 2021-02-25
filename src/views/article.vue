@@ -6,7 +6,7 @@
                     breakpoint="xxl"
                     collapsed-width="0"
     >
-      <a-menu theme="dark" mode="inline" :default-selected-keys="['0']">
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['0']"  >
         <a-menu-item v-for="(anchor,index) in titles"
                      :key="index"
 
@@ -42,12 +42,18 @@
         <a-layout-content :style="{'minHeight':'1500px'}">
           <a-row>
               <a-card>
-                <a-button @click="tocVisible = !tocVisible">
+                <a-button @click="tocVisible = !tocVisible" v-if="showTocControllerVisible">
                   <a-icon type="swap"/>
                 </a-button>
 
-                  <span style="font-size: 24px;border: none">{{currentProject.title}}</span>
+                <span style="font-size: 24px;border: none">{{currentProject.title}}</span>
               </a-card>
+
+
+          </a-row>
+
+          <a-row>
+
           </a-row>
           <a-row style="height: 20px;"></a-row>
 
@@ -58,6 +64,17 @@
           <a-row>
             <a-col :sapn="20">
               <a-row style="width: 800px;margin: 0 auto;">
+<!--                <a-card>-->
+<!--                  <div-->
+<!--                    v-for="(anchor,index) in titles"-->
+<!--                    :key="index"-->
+<!--                    :style="{ padding: `0 0 0 ${anchor.indent * 20}px`,'margin-top':'5px' }"-->
+<!--                    @click="handleAnchorClick(anchor)"-->
+<!--                  >-->
+<!--                    <a style="cursor: pointer" class="iocItem">{{ anchor.title }}</a>-->
+<!--                  </div>-->
+<!--                </a-card>-->
+
                 <a-card style="box-shadow: 0 4px 8px 0 rgba(28,31,33,0.1);background-color: #fff;
                 border-radius: 10px;">
                   <v-md-editor
@@ -92,6 +109,7 @@
     name: "",
     data() {
       return {
+        showTocControllerVisible:true,
         visible:false,
         top: 0,
         tocVisible: false,
@@ -115,6 +133,10 @@
           this.blogContent = res.data;
         }).then((res) => {
           this.initTitles();
+        }).then(res=>{
+          if ('1'===projectType){
+            this.tocVisible = true;
+          }
         });
       },
 
@@ -125,6 +147,10 @@
           this.currentProject = res.data;
           if (res.data.projectType === '2') {
             this.chapterList = res.data.chapterDTOList[0]['children']
+          }
+          if (res.data.projectType === '1') {
+            this.blogContentGet(id, '1');
+            this.showTocControllerVisible = false;
           }
         })
       },
