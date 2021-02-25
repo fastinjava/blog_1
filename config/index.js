@@ -10,7 +10,27 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api/fastdevelop/': {
+        target: 'http://localhost:10001/',
+        changeOrigin: true,//是否允许跨越
+        pathRewrite: {
+          '^/api': ''
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+
+
+      '/api/fastdevelop_biz_web/': {
+        target: 'http://localhost:10011/',
+        changeOrigin: true,//是否允许跨越
+        pathRewrite: {
+          '^/api': ''
+        }
+        //target: 'http://127.0.0.1:50201'
+      },
+
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

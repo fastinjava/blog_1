@@ -1,20 +1,54 @@
 <template>
-  <div>
-    <a-row style="width: 800px;margin: 0 auto">
-      <a-card style="box-shadow: 0 4px 8px 0 rgba(28,31,33,0.1);background-color: #fff;
-                border-radius: 10px;">
 
-        <v-md-editor
-          ref="editor"
-          :value="blogContent"
-          mode="preview"
-          style="
+
+  <a-layout>
+    <a-layout-sider
+      breakpoint="xxl"
+      collapsed-width="0"
+    >
+      <a-menu theme="dark" mode="inline" :default-selected-keys="['5']">
+        <a-sub-menu key="sub2" >
+          <span slot="title"><span>Navigation Two</span></span>
+          <a-menu-item key="5">
+            Option 5
+          </a-menu-item>
+          <a-menu-item key="6">
+            Option 6
+          </a-menu-item>
+        </a-sub-menu>
+      </a-menu>
+    </a-layout-sider>
+
+    <a-layout>
+      <a-layout-content :style="{'minHeight':'1500px'}">
+        <a-row>
+          <a-col :sapn="24">
+            <a-row style="width: 800px;margin: 0 auto">
+              <a-card style="box-shadow: 0 4px 8px 0 rgba(28,31,33,0.1);background-color: #fff;
+                border-radius: 10px;">
+                <v-md-editor
+                  ref="editor"
+                  :value="blogContent"
+                  mode="preview"
+                  style="
                     min-height: 1500px;
                   "
-        ></v-md-editor>
-      </a-card>
-    </a-row>
-  </div>
+                ></v-md-editor>
+              </a-card>
+            </a-row>
+          </a-col>
+        </a-row>
+      </a-layout-content>
+    </a-layout>
+    <a-layout-sider
+      breakpoint="xxl"
+      collapsed-width="0"
+      :style="{backgroundColor:'#fff'}"
+    >
+    </a-layout-sider>
+
+  </a-layout>
+
 </template>
 
 <script>
@@ -22,6 +56,7 @@
     name: "",
     data() {
       return {
+        titles: [],
         blogContent: '# 第一章 \n **三段提交协议 - 3PC（Three-PhaseCommit）**\n' +
           '\n' +
           '核心：在2pc的基础上增加了一个询问阶段（第一阶段），确认网络，避免阻塞，二三阶段就是上面的2pc\n' +
@@ -49,6 +84,54 @@
           '    }\n' +
           '```'
       }
+    },
+    methods:{
+
+
+      initTitles() {
+        const anchors = this.$refs.editor.$el.querySelectorAll(
+          ".v-md-editor-preview h1,h2,h3,h4,h5,h6"
+        );
+        const titles = Array.from(anchors).filter(
+          (title) => !!title.innerText.trim()
+        );
+
+        if (!titles.length) {
+          this.titles = [];
+          return;
+        }
+
+        const hTags = Array.from(
+          new Set(titles.map((title) => title.tagName))
+        ).sort();
+
+        this.titles = titles.map((el) => ({
+          title: el.innerText,
+          lineIndex: el.getAttribute("data-v-md-line"),
+          indent: hTags.indexOf(el.tagName),
+        }));
+      },
+
+      handleAnchorClick(anchor) {
+        const {editor} = this.$refs;
+        const {lineIndex} = anchor;
+
+        const heading = editor.$el.querySelector(
+          `.v-md-editor-preview [data-v-md-line="${lineIndex}"]`
+        );
+
+        if (heading) {
+          editor.previewScrollToTarget({
+            target: heading,
+            scrollContainer: window,
+            top: 60,
+          });
+        }
+      },
+
+    },
+    mounted(){
+        this.initTitles();
     }
   }
 </script>

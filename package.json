@@ -10,6 +10,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.16.2",
+    "es6-promise": "^4.2.8",
+    "jsonwebtoken": "^8.5.1",
     "@kangc/v-md-editor": "^1.6.0",
     "ant-design-vue": "^1.7.3",
     "vue": "^2.5.2",
