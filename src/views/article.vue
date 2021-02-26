@@ -40,17 +40,17 @@
 
 
         <a-layout-content :style="{'minHeight':'1500px'}">
-          <a-row>
-              <a-card>
-                <a-button @click="tocVisible = !tocVisible" v-if="showTocControllerVisible">
-                  <a-icon type="swap"/>
-                </a-button>
+          <!--<a-row>-->
+              <!--<a-card>-->
+                <!--<a-button @click="tocVisible = !tocVisible" v-if="showTocControllerVisible">-->
+                  <!--<a-icon type="swap"/>-->
+                <!--</a-button>-->
 
-                <span style="font-size: 24px;border: none">{{currentProject.title}}</span>
-              </a-card>
+                <!--<span style="font-size: 24px;border: none">{{currentProject.title}}</span>-->
+              <!--</a-card>-->
 
 
-          </a-row>
+          <!--</a-row>-->
 
           <a-row>
 
@@ -63,7 +63,7 @@
 
           <a-row>
             <a-col :sapn="20">
-              <a-row style="width: 800px;margin: 0 auto;">
+              <a-row style="width: 700px;margin: 0 auto;">
 <!--                <a-card>-->
 <!--                  <div-->
 <!--                    v-for="(anchor,index) in titles"-->
@@ -75,7 +75,7 @@
 <!--                  </div>-->
 <!--                </a-card>-->
 
-                <a-card style="box-shadow: 0 4px 8px 0 rgba(28,31,33,0.1);background-color: #fff;
+                <div style="background-color: #fff;
                 border-radius: 10px;">
                   <v-md-editor
                     ref="editor"
@@ -85,7 +85,7 @@
                     min-height: 1500px;
                   "
                   ></v-md-editor>
-                </a-card>
+                </div>
               </a-row>
             </a-col>
           </a-row>

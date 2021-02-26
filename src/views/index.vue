@@ -8,13 +8,7 @@
     >
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-menu-item key="1">
-          <span>nav 1</span>
-        </a-menu-item>
-        <a-menu-item key="2">
-          <span>nav 2</span>
-        </a-menu-item>
-        <a-menu-item key="3">
-          <span>nav 3</span>
+          <span>首页</span>
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
@@ -33,15 +27,7 @@
                 <div style="border-bottom: 1px solid rgba(28,31,33,.1);padding: 0px 0px 10px;width: 100%">
                   <div>
                     <a href="javascript:void(0);" class=""
-                      @click="$router.push({
-                          name:'ARTICLE',
-                          query:{
-
-                              projectType:item.projectType,
-                              id:item.id,
-
-                          }
-                      })"
+                      @click="goToProjectDetail(item)"
                     ><p class="title">{{item.title}}</p></a>
                     <span>{{item.subTitle}}</span>
                   </div>
@@ -74,7 +60,24 @@
       }
     },
     methods: {
+      goToProjectDetail(item){
 
+
+        let pageName = 'ARTICLE';
+        if (item.projectType === '3')
+        {
+          pageName = 'QUESTION';
+        }
+        this.$router.push({
+          name:pageName,
+          query:{
+
+            projectType:item.projectType,
+            id:item.id,
+
+          }
+        })
+      },
       listProjects() {
         projectController.listProjects({pageSize: 1000}).then(res => {
           if (res.success) {

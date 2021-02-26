@@ -15,3 +15,8 @@ export const blogContentGet = (projectId,projectType) => {
   return http.requestQuickGet(`/api/fastdevelop_biz_web/project/blogContentGet?projectId=${projectId}&projectType=${projectType}`)
 }
 
+export const answerListAnswers = (reload) => {
+  return http.requestQuickGet(`/api/fastdevelop_biz_web/answer/listAnswers?`+qs.stringify(reload))
+}
+
+
